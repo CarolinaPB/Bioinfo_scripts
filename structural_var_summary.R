@@ -1,7 +1,5 @@
 #!/usr/bin/env Rscript
 
-#setwd("/lustre/nobackup/WUR/ABGC/moiti001/results/Mgal_WUR_HG_1.0/structural_var/F1_parents")
-
 #packagesList <- c("data.table", "optparse")
 #newPackages <- packagesList[!(packagesList %in% installed.packages()[,"Package"])]
 #if(length(newPackages) > 0) {
@@ -33,6 +31,7 @@ system(command)
 
 
 struct <- fread(opt$intermediate)
+struct <- fread("vcf_subset.txt")
 colnames(struct) <- c("chromosome", "var", "var_size")
 
 # Total number of each variant
@@ -43,7 +42,7 @@ struct[,.N, by=var]
 # Min and max size of variant
 
 print("MIN AND MAX SIZE OF EACH VARIANT")
-struct_maxsize <- struct[,max(var_size),by=var]
+struct_maxsize <- struct[,max(abs(as.numeric(var_size))),by=var]
 struct_min <- struct[,min(abs(as.numeric(var_size))), by=var]
 struct_size_limits <- merge(struct_min, struct_maxsize, by="var")
 colnames(struct_size_limits) <- c("var", "min_size", "max_size")
