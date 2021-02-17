@@ -52,3 +52,14 @@ scontrol release name=JOBNAME
 
 # check predicted job start time
 squeue --user=USERNAME --start
+
+# check if file exists [ ! -f $f.bai ]
+for f in a2*.RG.bam 
+    do
+        if [ ! -f $f.bai ]; then
+            samtools index -@ 16 $f
+        fi
+    done
+
+# split string at ., get first value
+echo $f | awk -F'[_.]' '{print $1}'
