@@ -15,8 +15,14 @@ cmp --silent scaffolds_20.fasta scaffolds_87.fasta || echo "files are different"
 Or 
 cmp --silent  scaffolds_20.fasta scaffolds_87.fasta && echo '### SUCCESS: Files Are Identical! ###' || echo '### WARNING: Files Are Different! ###'
 
-# remove the last line of a file
+# delete the last line of a file
 head -n -1 scaffolds_20.fasta > temp.txt ; mv temp.txt scaffolds_20.fasta
+
+# delete first line of file
+sed '1,1d' <file>
+
+# delete last line of file
+sed '$d' <file>
 
 # To get length of fasta sequences
 ## index fasta
@@ -63,3 +69,9 @@ for f in a2*.RG.bam
 
 # split string at ., get first value
 echo $f | awk -F'[_.]' '{print $1}'
+
+# count number of reads mapped by bwa
+grep "Processed" <BWA_LOG> | awk '{print $3}' | awk '{s+=$1} END {print s}'
+
+# count number of reads in fasta.gz file
+zgrep -c "^>" <reads.fasta.gz>
