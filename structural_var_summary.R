@@ -31,7 +31,7 @@ system(command)
 
 
 struct <- fread(opt$intermediate)
-struct <- fread("vcf_subset.txt")
+#struct <- fread("vcf_subset.txt")
 colnames(struct) <- c("chromosome", "var", "var_size")
 
 # Total number of each variant
