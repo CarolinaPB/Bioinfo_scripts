@@ -75,3 +75,18 @@ grep "Processed" <BWA_LOG> | awk '{print $3}' | awk '{s+=$1} END {print s}'
 
 # count number of reads in fasta.gz file
 zgrep -c "^>" <reads.fasta.gz>
+
+# Assembly stats (all give slightly different results)
+conda activate py2.7
+N50 -x <fasta>
+
+or
+
+conda activate random
+statswrapper.sh <fasta1>,<fasta2> (for several files)
+stats.sh in=<fasta>
+
+or 
+
+conda activate quast
+quast --threads 16 --eukaryote --split-scaffolds --large <fasta> 
