@@ -33,6 +33,7 @@ cut -f1-2 <file>.fai
 # get slurm job info
 sacct --format='JobID,JobName,Elapsed,MaxVMSize,State'
 
+--starttime YYYY-MM-DD[THH:MM[:SS]]
 # show next X lines in grep search
 grep -A10 <pattern> <file>
 
@@ -58,6 +59,9 @@ scontrol release name=JOBNAME
 
 # check predicted job start time
 squeue --user=USERNAME --start
+
+# check job time limit
+squeue -l -j <jobID>
 
 # check if file exists [ ! -f $f.bai ]
 for f in a2*.RG.bam 
@@ -90,3 +94,15 @@ or
 
 conda activate quast
 quast --threads 16 --eukaryote --split-scaffolds --large <fasta> 
+
+# remove directories in the current directory that were created today
+# print the directory names to confirm you want to delete them
+find . -mtime -1 -type d -exec echo {} \;
+# delete directories
+find . -mtime -1 -type d -exec rm -r {} \;
+
+# remove files in the current directory that were created today
+# start by printing the files to confirm you want to delete them
+find . -maxdepth 1 -mtime -1 -type f -name t* -print
+# delete
+find . -maxdepth 1 -mtime -1 -type f -name t* -delete
