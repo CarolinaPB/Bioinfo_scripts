@@ -14,7 +14,7 @@ args = commandArgs(trailingOnly=TRUE)
 ifelse(!dir.exists(file.path("vcf_plots")), dir.create(file.path("vcf_plots")), "Saving plots to vcf_plots")
 
 
-command <- paste0('zgrep "PSC" ',args[1], " > vcf_plots/per_sample_stats.txt")
+command <- paste0('zgrep PSC ',args[1], " > vcf_plots/per_sample_stats.txt")
 system(command)
 
 sample_stats <- fread("vcf_plots/per_sample_stats.txt", drop = c("# PSC", "[2]id"))
@@ -29,7 +29,7 @@ hist(sample_stats$`[4]nRefHom`, main="Num Ref Homozygous", xlab="# ref homozygou
 dev.off()
 
 png("vcf_plots/ts_tv.png",width=600, height=350)
-hist(sample_stats$ts_tv, main="Ts/Tv", xlab="ts/tv", ylab = "# samples", xlim = c(1.99,2.049), breaks = 20)
+hist(sample_stats$ts_tv, main="Ts/Tv", xlab="ts/tv", ylab = "# samples", breaks = 50)
 dev.off()
 
 png("vcf_plots/num_nonref_hom.png",width=600, height=350)
