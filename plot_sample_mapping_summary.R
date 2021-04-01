@@ -26,13 +26,13 @@ mapping_stats[,("mean_coverage"):=lapply(.SD, gsub, pattern="X", replacement="")
 mapping_stats[,("mapping_rate"):=lapply(.SD, gsub, pattern="%", replacement=""), .SDcols="mapping_rate"]
 
 png("mapping_stats/mean_coverage.png",width=600, height=350)
-hist(as.numeric(mapping_stats$mean_coverage), breaks=20, main="Mean coverage", xlab="mean coverage (X)", ylab = "# samples")
+hist(as.numeric(mapping_stats$mean_coverage), breaks=30, main="Mean coverage", xlab="mean coverage (X)", ylab = "# samples")
 dev.off()
 
 png("mapping_stats/mapping_rate.png",width=600, height=350)
-hist(as.numeric(mapping_stats$mapping_rate), breaks=20, main="Mapping rate", xlab="mapping rate (%)", ylab = "# samples")
+hist(as.numeric(mapping_stats$mapping_rate), breaks=30, main="Mapping rate", xlab="mapping rate (%)", ylab = "# samples")
 dev.off()
 
 png("mapping_stats/mapping_quality.png",width=600, height=350)
-hist(as.numeric(mapping_stats$mean_mapping_qual), breaks=20, main="Mean mapping quality", xlab="Mean mapping quality", ylab = "# samples")
+hist(as.numeric(mapping_stats$mean_mapping_qual), breaks=30, main="Mean mapping quality", xlab="Mean mapping quality", ylab = "# samples")
 dev.off()
