@@ -53,6 +53,7 @@ sortbyname.sh in=file.fa out=sorted.fa length descending
 # Create bed file out of .fai
 awk 'BEGIN {FS="\t"}; {print $1 FS "0" FS $2}' fasta.fai > fasta.bed
 
+## SLURM
 # hold job hpc
 scontrol hold name=JOBNAME (or comma separated list of job ids)
 scontrol release name=JOBNAME
@@ -62,6 +63,12 @@ squeue --user=USERNAME --start
 
 # check job time limit
 squeue -l -j <jobID>
+
+# Show allocated resources and details of a job
+scontrol show jobid <jobID>
+
+# for interactive slurm session
+sinteractive -c <num_cpus> --mem <amount_mem> --time <minutes>
 
 # check if file exists [ ! -f $f.bai ]
 for f in a2*.RG.bam 
@@ -106,3 +113,8 @@ find . -mtime -1 -type d -exec rm -r {} \;
 find . -maxdepth 1 -mtime -1 -type f -name t* -print
 # delete
 find . -maxdepth 1 -mtime -1 -type f -name t* -delete
+
+# remove everything after first space
+sed 's/\s.*$//' <file>
+## After first dot
+sed 's/\..*$//'
