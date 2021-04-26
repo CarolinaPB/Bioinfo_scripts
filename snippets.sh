@@ -118,3 +118,13 @@ find . -maxdepth 1 -mtime -1 -type f -name t* -delete
 sed 's/\s.*$//' <file>
 ## After first dot
 sed 's/\..*$//'
+## everything before first pipe
+sed 's/.*|//'
+## everything after the first two patterns (after the second underscore)
+sed -E 's/((_*[^_]*){2}).*/\1/'
+
+# Get number of each element in column 3
+cut -f3 <file> | sort | uniq -c
+
+# List number of directories in the current directory
+ls -l | grep -c ^d
