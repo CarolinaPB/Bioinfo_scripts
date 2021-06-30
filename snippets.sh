@@ -128,3 +128,29 @@ cut -f3 <file> | sort | uniq -c
 
 # List number of directories in the current directory
 ls -l | grep -c ^d
+
+# To start jupyter lab from the HPC
+conda activate py37  # has jupyter lab installed with conda
+jupyter-lab --port 8888 --no-browser
+
+#In local conda powershell:
+ssh -t -t <user>@login.anunna.wur.nl -L 8888:localhost:8888
+
+# time a command in jupyter notebook
+%timeit <other code>
+
+# Repeatmasker output to .bed
+scripts/RMout_to_bed.pl <infile> <prefix>
+
+# bed to gff3
+conda activate genestructure # has genometools package
+gt bed_to_gff3 <file> > <output file>
+
+# unzip tar.gz
+tar -xvf <file>
+
+# create symbolic link
+ln -s <directory/file to link> <name of link>
+
+# list chromosomes in vcf file
+zcat <file.vcf.gz> | grep "^[^#]" | cut -f 1 | uniq | sort -n
