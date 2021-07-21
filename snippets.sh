@@ -154,3 +154,6 @@ ln -s <directory/file to link> <name of link>
 
 # list chromosomes in vcf file
 zcat <file.vcf.gz> | grep "^[^#]" | cut -f 1 | uniq | sort -n
+
+# add to run programs compiled with an AVX512 instruction in it on SLURM
+#SBATCH --constraint=avx512 
