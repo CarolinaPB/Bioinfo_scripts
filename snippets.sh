@@ -32,6 +32,7 @@ cut -f1-2 <file>.fai
 
 # get slurm job info
 sacct --format='JobID,JobName,Elapsed,MaxVMSize,State'
+sacct --format='JobID,JobName,Elapsed,MaxVMSize,State,Start,End'
 
 --starttime YYYY-MM-DD[THH:MM[:SS]]
 # show next X lines in grep search
@@ -122,6 +123,8 @@ sed 's/\..*$//'
 sed 's/.*|//'
 ## everything after the first two patterns (after the second underscore)
 sed -E 's/((_*[^_]*){2}).*/\1/'
+## everything after the first underscore
+sed 's/_.*//'
 
 # Get number of each element in column 3
 cut -f3 <file> | sort | uniq -c
@@ -157,3 +160,12 @@ zcat <file.vcf.gz> | grep "^[^#]" | cut -f 1 | uniq | sort -n
 
 # add to run programs compiled with an AVX512 instruction in it on SLURM
 #SBATCH --constraint=avx512 
+
+# get file basename from file path (no extension)
+$(basename $f) | sed "s/\..*//"
+
+# get file basename from file path (with extension)
+$(basename $f)
+
+# give permissions to a specific user
+setfacl -m u:username:rwx myfolder
