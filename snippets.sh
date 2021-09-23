@@ -41,6 +41,9 @@ grep -A10 <pattern> <file>
 # show previous X lines in grep search
 grep -B10 <pattern> <file>
 
+# When grepping several files: show in which file the pattern was found in
+grep -H <pattern> *.err
+
 # get top 40 scaffolds
 sort -k2,2 -nr lengths_scaffolds.txt | head -n40
 
@@ -169,3 +172,6 @@ $(basename $f)
 
 # give permissions to a specific user
 setfacl -m u:username:rwx myfolder
+
+# snakemake: create rule workflow pdf
+snakemake --forceall --rulegraph | dot -Tpdf > workflow.pdf
