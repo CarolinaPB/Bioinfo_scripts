@@ -173,5 +173,32 @@ $(basename $f)
 # give permissions to a specific user
 setfacl -m u:username:rwx myfolder
 
+## Snakemake
 # snakemake: create rule workflow pdf
 snakemake --forceall --rulegraph | dot -Tpdf > workflow.pdf
+snakemake --forceall --rulegraph | dot -Tpng > workflow.png
+
+# export conda env to environment.yaml
+conda env export > environment.yml
+
+# remove package from conda env
+conda remove <package>
+
+# create requirements.txt from conda env
+conda list -e > requirements.txt
+
+# install snakemake
+conda install -c conda-forge mamba
+
+mamba install -c conda-forge -c bioconda snakemake
+
+
+# get number of homozygous SNPs in a vcf file 
+zcat vcf1 | grep -v "#" | grep "1/1:" | wc -l
+
+# get number of each SVTYPE in VCF (takes a while)
+module load vcftools 
+vcf-query -f  '%INFO/SVTYPE\n' <vcf> | sort |uniq -c
+
+# list directories
+ls -d */
