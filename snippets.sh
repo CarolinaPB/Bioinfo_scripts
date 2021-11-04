@@ -87,6 +87,13 @@ echo $f | awk -F'[_.]' '{print $1}'
 
 # count number of reads mapped by bwa
 grep "Processed" <BWA_LOG> | awk '{print $3}' | awk '{s+=$1} END {print s}'
+# same for bwamem2
+grep "Processed" <BWA_LOG> | awk '{print $4}' | awk '{s+=$1} END {print s}'
+
+
+# mapping rate from bam file
+module load bamtools
+bamtools stats -in <bam> > <bam.stats>
 
 # count number of reads in fasta.gz file
 zgrep -c "^>" <reads.fasta.gz>
@@ -177,6 +184,7 @@ setfacl -m u:username:rwx myfolder
 # snakemake: create rule workflow pdf
 snakemake --forceall --rulegraph | dot -Tpdf > workflow.pdf
 snakemake --forceall --rulegraph | dot -Tpng > workflow.png
+snakemake --forceall --dag | dot -Tpng > dag.png
 
 # export conda env to environment.yaml
 conda env export > environment.yml
@@ -202,3 +210,6 @@ vcf-query -f  '%INFO/SVTYPE\n' <vcf> | sort |uniq -c
 
 # list directories
 ls -d */
+
+# get path to conda env
+echo $CONDA_PREFIX
