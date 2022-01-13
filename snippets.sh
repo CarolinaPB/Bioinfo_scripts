@@ -135,6 +135,8 @@ sed 's/.*|//'
 sed -E 's/((_*[^_]*){2}).*/\1/'
 ## everything after the first underscore
 sed 's/_.*//'
+## Remove comma followed by anything which is not a white-spaces and all matches.
+sed 's/,[^[:blank:]]*//
 
 # Get number of each element in column 3
 cut -f3 <file> | sort | uniq -c
@@ -213,3 +215,11 @@ ls -d */
 
 # get path to conda env
 echo $CONDA_PREFIX
+
+# get chosen fields out of VCF file based on file with CHR POS columns
+## uniq is used since a line is printed for each sample, and those lines have the same info
+bcftools query -R <chr_pos_file.txt> -f'[%CHROM\t%POS\t%INFO/CSQ\n]' <vcf> | uniq
+
+
+# Get job efficiency data 
+/cm/shared/apps/accounting/job_efficiency <JOBID>
