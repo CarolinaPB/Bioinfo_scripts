@@ -15,7 +15,24 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-
+	
+	"Add rule": {
+		"scope": "snakemake",
+		"prefix": "rule",
+		"body": [
+			"rule ${1:NAME}$0:",
+			"\tinput:",
+			"\t\t'${2:INPUT}'",
+			"\toutput:",
+			"\t\t'${3:OUTPUT}'",
+			"\tmessage:",
+			"\t\t'Rule {rule} processing'",
+			"\tshell:",
+			"\t\t'${4}'"
+		],
+		"description": "Add rule body"
+	},
+	
 	"Add message to rule":{
 		"scope": "snakemake",
 		"prefix": "message",
@@ -36,20 +53,4 @@
 		"description": "Add group component to rule"
 	},
 
-	"Add rule": {
-		"scope": "snakemake",
-		"prefix": "rule",
-		"body": [
-			"rule ${1:NAME}$0:",
-			"\tinput:",
-			"\t\t'${2:INPUT}'",
-			"\toutput:",
-			"\t\t'${3:OUTPUT}'",
-			"\tmessage:",
-			"\t\t'Rule {rule} processing'",
-			"\tshell:",
-			"\t\t'${4}'"
-		],
-		"description": "Add rule body"
-	}
 }
