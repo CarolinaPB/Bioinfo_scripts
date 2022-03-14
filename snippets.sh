@@ -9,6 +9,8 @@ sed -n '/Scaffolds_20 /,/Scaffolds_21/p' scaffolds.fasta > scaffolds_20.fasta
 ## This leaves you with a file that has only sequence and no headers
 grep -v ">" scaffolds_87.fasta > temp.txt; mv temp.txt scaffolds_87.fasta
 
+# Subset fasta file by chromosome name
+samtools faidx <file>.fa <chr id>
 
 # compare files to see if they are different
 cmp --silent scaffolds_20.fasta scaffolds_87.fasta || echo "files are different"
@@ -57,7 +59,7 @@ sortbyname.sh in=file.fa out=sorted.fa length descending
 # Create bed file out of .fai
 awk 'BEGIN {FS="\t"}; {print $1 FS "0" FS $2}' fasta.fai > fasta.bed
 
-## SLURM
+##### SLURM/HPC #####
 # hold job hpc
 scontrol hold name=JOBNAME (or comma separated list of job ids)
 scontrol release name=JOBNAME
@@ -71,8 +73,26 @@ squeue -l -j <jobID>
 # Show allocated resources and details of a job
 scontrol show jobid <jobID>
 
+# Get job efficiency data 
+/cm/shared/apps/accounting/job_efficiency <JOBID>
+
 # for interactive slurm session
 sinteractive -c <num_cpus> --mem <amount_mem> --time <minutes>
+
+# add to run programs compiled with an AVX512 instruction in it on SLURM
+#SBATCH --constraint=avx512 
+
+# add dependencies - run this script after JOBID has finished successfuly
+#SBATCH  --dependency=afterok:<JOBID>:<JOBID>
+
+# get file basename from file path (no extension)
+$(basename $f) | sed "s/\..*//"
+
+# get file basename from file path (with extension)
+$(basename $f)
+
+# give permissions to a specific user
+setfacl -m u:username:rwx myfolder
 
 # check if file exists [ ! -f $f.bai ]
 for f in a2*.RG.bam 
@@ -136,7 +156,7 @@ sed -E 's/((_*[^_]*){2}).*/\1/'
 ## everything after the first underscore
 sed 's/_.*//'
 ## Remove comma followed by anything which is not a white-spaces and all matches.
-sed 's/,[^[:blank:]]*//
+sed 's/,[^[:blank:]]*//'
 
 # Get number of each element in column 3
 cut -f3 <file> | sort | uniq -c
@@ -170,23 +190,24 @@ ln -s <directory/file to link> <name of link>
 # list chromosomes in vcf file
 zcat <file.vcf.gz> | grep "^[^#]" | cut -f 1 | uniq | sort -n
 
-# add to run programs compiled with an AVX512 instruction in it on SLURM
-#SBATCH --constraint=avx512 
 
-# get file basename from file path (no extension)
-$(basename $f) | sed "s/\..*//"
-
-# get file basename from file path (with extension)
-$(basename $f)
-
-# give permissions to a specific user
-setfacl -m u:username:rwx myfolder
-
-## Snakemake
+##### Snakemake ###################################################
 # snakemake: create rule workflow pdf
 snakemake --forceall --rulegraph | dot -Tpdf > workflow.pdf
 snakemake --forceall --rulegraph | dot -Tpng > workflow.png
 snakemake --forceall --dag | dot -Tpng > dag.png
+
+# rerun rules with updated params
+snakemake -n -R `snakemake --list-params-changes`
+
+# rereun rules with updated code
+snakemake -n -R `snakemake --list-code-changes`
+
+# remove all snakemake output files
+snakemake some_target --delete-all-output
+
+# snakemake print only table with jobs to run
+snakemake -np --quiet
 
 # export conda env to environment.yaml
 conda env export > environment.yml
@@ -201,6 +222,8 @@ conda list -e > requirements.txt
 conda install -c conda-forge mamba
 
 mamba install -c conda-forge -c bioconda snakemake
+
+##############################################################
 
 
 # get number of homozygous SNPs in a vcf file 
@@ -221,5 +244,24 @@ echo $CONDA_PREFIX
 bcftools query -R <chr_pos_file.txt> -f'[%CHROM\t%POS\t%INFO/CSQ\n]' <vcf> | uniq
 
 
-# Get job efficiency data 
-/cm/shared/apps/accounting/job_efficiency <JOBID>
+# subset vcf to contain only one sample, don't include contigs or sex chromosomes
+# Get number of SVs
+bcftools view -S <file with one sample name> <vcf> | awk '$1 != "Contig"' | awk '$1 != "X"' | awk '$1 != "Y"' | awk '$1 != "MT"' | bcftools view -i 'AC>0' | perl -ne 'print "$1\n" if /[;\t]SVTYPE=([^;\t]+)/' | sort | uniq -c
+
+# get sample names from VCF
+bcftools query -l <vcf>
+
+# subsample VCF based on text files with sample names
+# use --force-samples if any of the samples is not in the original vcf
+bcftools view --threads 16 -S <samples.txt> <vcf> | \
+bcftools view -i 'AC>0' | \
+bcftools +fill-tags -Oz > <output.vcf.gz>
+
+# automatically install list of packages in R
+list.of.packages <- c("optparse", "data.table")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+# Git
+## discard local changes to a certain file
+git checkout <file>
