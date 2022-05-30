@@ -10,7 +10,7 @@
 module load R/3.5.3
 
 # Population 1
-vcf=<yourvcf.vcf.gz>
-prefix=<prefix>
+rds=<wgscan_pop.rds>
+pop=<pop>
 
-time Rscript run_ihs.R --vcf=$vcf --output=$prefix
+Rscript run_ihs.R --rds=$rds --pop=$pop
