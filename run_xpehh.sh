@@ -12,9 +12,9 @@ module load R/3.5.3
 # First run ihs
 
 # compare pop1 with pop2
-csv1=<wgscan_pop1.rds>
-csv2=<wgscan_pop2.rds>
+rds1=<wgscan_pop1.rds>
+rds2=<wgscan_pop2.rds>
 pop1=<pop1>
 pop2=<pop2>
 
-Rscript run_xpehh.R --csv1=$csv1 --csv2=$csv2 --pop1=$pop1 --pop2=$pop2
+Rscript run_xpehh.R --rds1=$rds1 --rds2=$rds2 --pop1=$pop1 --pop2=$pop2

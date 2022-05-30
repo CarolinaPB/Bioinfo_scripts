@@ -19,13 +19,14 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
+print(opt$pop1)
 
+print(paste0("Running xpehh ", opt$pop1, " vs ", opt$pop2))
+print(paste0("Files: ", opt$rds1, ", ", opt$rds2))
 
-print(paste0("Running xpehh ", opt$p, " vs ", opt$g))
-print(paste0("Files: ", opt$f, ", ", opt$s))
+wgscan_1 <- readRDS(file = opt$rds1)
+wgscan_2 <- readRDS(file = opt$rds2)
 
-wgscan_1 <- readRDS(file = opt$f)
-wgscan_2 <- readRDS(file = opt$s)
 
 # Run xpehh
 agroeco.xpehh<-ies2xpehh(wgscan_1,wgscan_2, opt$p,opt$g)
@@ -33,5 +34,5 @@ saveRDS(agroeco.xpehh, file= paste0("xpehh_", opt$output, ".rds"))
 
 jpeg(paste0("xpehh_", opt$p, "_", opt$g,".jpeg"))
 manhattanplot(agroeco.xpehh,
-              main = paste0("XPEHH Ethiopian chicken populations (", opt$p, " - ", opt$g, ")"))
+              main = paste0("XPEHH populations (", opt$p, " - ", opt$g, ")"))
 dev.off()
