@@ -9,7 +9,7 @@
 
 module load R/3.5.3
 
-# First run ihs
+# First run run_scan.sh script
 
 # compare pop1 with pop2
 rds1=<wgscan_pop1.rds>
