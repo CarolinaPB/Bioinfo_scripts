@@ -14,13 +14,14 @@ import argparse
 ### USAGE ###
 # ensembl_rapidrelease_homologue_query.py -i <ids.txt> -u <https://rapid.ensembl.org/species_code/Gene/Compara_Homolog?g=>
 # -i is a file with Ensembl gene IDs for your species' genes that you want to find homologues for
-# -u is teh rapid release homologue page url, something like this https://rapid.ensembl.org/Meleagris_gallopavo_GCA_905368555.1/Gene/Compara_Homolog?g=
-
-# Check below for other fields you should change
+# -u is the rapid release homologue page url, something like this https://rapid.ensembl.org/Meleagris_gallopavo_GCA_905368555.1/Gene/Compara_Homolog?g=
+2
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--ids", help = "Text file containing one Ensembl gene id per line")
 parser.add_argument("-u", "--url", help = "Rapid release homologue URL")
+parser.add_argument("-s", "--species1", help = "Species 1")
+parser.add_argument("-p", "--species2", help = "Species 2")
 
 args = parser.parse_args()
 
@@ -45,8 +46,7 @@ def parse(url):
 with open(args.ids) as f:
     gene_list = f.read().splitlines()
 
-# TODO: change species names, add or remove items from the list
-final_df = pd.DataFrame(index = gene_list, columns=["Mgal_5.1_ID", "Chicken_ID"])
+final_df = pd.DataFrame(index = gene_list, columns=[f"{args.species1}_ID", f"{args.species2}_ID"])
 
 if not os.path.isfile("processed_genes.txt"):
     with open("processed_genes.txt", "w") as gene_log:
@@ -76,23 +76,27 @@ for gene, row in final_df.iterrows():
                     cols = [ele.text.strip() for ele in cols]
                     data.append([ele for ele in cols if ele]) # Get rid of empty values
 
-# TODO: change species names, add or remove items if statements
-# Turkey and Chicken correspond to species in the homologue gene table, change to your species' name
                 for el in data:
-                    if "Turkey" in el:                
-                        final_df.loc[gene, "Mgal_5.1_ID"] = el[1] if el[1].startswith("ENS") else el[2]
+                    if args.species1 in el:                
+                        final_df.loc[gene, f"{args.species1}_ID"] = el[1] if el[1].startswith("ENS") else el[2]
 
-                    elif "Chicken" in el:
-                        final_df.loc[gene, "Chicken_ID"] = el[1] if el[1].startswith("ENS") else el[2]
+                    elif args.species2 in el:
+                        final_df.loc[gene, f"{args.species2}_ID"] = el[1] if el[1].startswith("ENS") else el[2]
             else:
                 print(f"No homologue for gene: {gene}")
-                final_df.loc[gene, "Mgal_5.1_ID"] = None
-                final_df.loc[gene, "Chicken_ID"] = None
+                final_df.loc[gene, f"{args.species1}_ID"] = None
+                final_df.loc[gene, f"{args.species2}_ID"] = None
 
             with open("processed_genes.txt", "a") as f:
                 f.write(gene + "\n")
+                
+# If file exists, don't save new header
+with open("homologue_table.csv", 'a') as f:
+    final_df.to_csv(f, mode='a', header=not f.tell())
 
-            final_df.to_csv("homologue_table.csv", mode='a')
+
+
+
 
 
 
