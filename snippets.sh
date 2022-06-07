@@ -94,6 +94,9 @@ $(basename $f)
 # give permissions to a specific user
 setfacl -m u:username:rwx myfolder
 
+# Add permissions
+chmod +rwx <filename>
+
 # check if file exists [ ! -f $f.bai ]
 for f in a2*.RG.bam 
     do
@@ -169,7 +172,7 @@ conda activate py37  # has jupyter lab installed with conda
 jupyter-lab --port 8888 --no-browser
 
 #In local conda powershell:
-ssh -t -t <user>@login.anunna.wur.nl -L 8888:localhost:8888
+ssh -t <user>@login.anunna.wur.nl -L 8888:localhost:8888
 
 # time a command in jupyter notebook
 %timeit <other code>
@@ -265,3 +268,21 @@ if(length(new.packages)) install.packages(new.packages)
 # Git
 ## discard local changes to a certain file
 git checkout <file>
+
+# extract first sequence from fasta file
+awk '/^>/{if(N)exit;++N;} {print;}' <file>
+
+# format snakemake file (https://github.com/snakemake/snakefmt)
+snakefmt Snakefile
+
+# check what to do to follow best snakemake practices
+snakemake --lint
+
+# one line fasta
+seqtk seq -l0 {input} > {output}
+
+# Get specific sequence interval from fasta file and bed file (3 columns: chr   start   end)
+bedtools getfasta -fi <file.fasta> -bed <file.bed> -fo <output.fa>
+
+# concatenate several files with the same header. Keep the header
+awk 'FNR>1 || NR==1' results/*_files.txt
