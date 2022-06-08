@@ -15,7 +15,7 @@ import argparse
 # ensembl_rapidrelease_homologue_query.py -i <ids.txt> -u <https://rapid.ensembl.org/species_code/Gene/Compara_Homolog?g=>
 # -i is a file with Ensembl gene IDs for your species' genes that you want to find homologues for
 # -u is the rapid release homologue page url, something like this https://rapid.ensembl.org/Meleagris_gallopavo_GCA_905368555.1/Gene/Compara_Homolog?g=
-2
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--ids", help = "Text file containing one Ensembl gene id per line")
