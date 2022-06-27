@@ -9,6 +9,10 @@ Not all scripts are ready to be used as is. They should be adapted for your need
 
 Miscellaneous one-liners for everyday use
 
+## [collect_HISAT2_mapping_stats.sh](https://github.com/CarolinaPB/Bioinfo_scripts/blob/main/collect_HISAT2_mapping_stats.sh)
+
+Collect HISAT2 mapping statistics from multiple summary files located in the current directory and organized them into a table
+
 ## [create_busco_plot.py](https://github.com/CarolinaPB/Bioinfo_scripts/blob/main/create_busco_plot.py)
 
 Create busco summary plot for several busco results as seen here <https://busco.ezlab.org/busco_userguide.html#companion-scripts>.
