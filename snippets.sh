@@ -85,6 +85,12 @@ sinteractive -c <num_cpus> --mem <amount_mem> --time <minutes>
 # add dependencies - run this script after JOBID has finished successfuly
 #SBATCH  --dependency=afterok:<JOBID>:<JOBID>
 
+# start job only jobs with JOBNAME have finished
+sbatch --dependency=singleton --jobname=<JOBNAME> script.sh
+
+# submit job that's not in a script
+sbatch --job-name="<jobname>" --wrap="<command>"
+
 # get file basename from file path (no extension)
 $(basename $f) | sed "s/\..*//"
 
@@ -286,3 +292,9 @@ bedtools getfasta -fi <file.fasta> -bed <file.bed> -fo <output.fa>
 
 # concatenate several files with the same header. Keep the header
 awk 'FNR>1 || NR==1' results/*_files.txt
+
+# rsync from hpc to local machine
+/usr/bin/rsync -av -e "ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress gw2hpct02:/hpc/my_group/my_username/data /tmp/data_from_HPC/
+
+# rsync from local machine to HPC
+/usr/bin/rsync -av -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress /tmp/data_to_HPC gw2hpct02:/hpc/my_group/my_username/data/ 
