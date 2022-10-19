@@ -298,3 +298,6 @@ awk 'FNR>1 || NR==1' results/*_files.txt
 
 # rsync from local machine to HPC
 /usr/bin/rsync -av -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress /tmp/data_to_HPC gw2hpct02:/hpc/my_group/my_username/data/ 
+
+# Automatically create repo changelog from git commits
+git log --pretty="- %s" > CHANGELOG.md
