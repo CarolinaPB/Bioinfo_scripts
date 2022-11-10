@@ -301,3 +301,7 @@ awk 'FNR>1 || NR==1' results/*_files.txt
 
 # Automatically create repo changelog from git commits
 git log --pretty="- %s" > CHANGELOG.md
+
+# Check which step failed in cromwell pipeline
+## returns all "rc" files with non-zero exit status
+find -name rc -exec grep -vH 0 {} \;
