@@ -305,3 +305,6 @@ git log --pretty="- %s" > CHANGELOG.md
 # Check which step failed in cromwell pipeline
 ## returns all "rc" files with non-zero exit status
 find -name rc -exec grep -vH 0 {} \;
+
+# replace string in filename with another string (accepts filenames like filename*)
+rename <string to replace> <new string> <filename>
