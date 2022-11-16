@@ -308,3 +308,6 @@ find -name rc -exec grep -vH 0 {} \;
 
 # replace string in filename with another string (accepts filenames like filename*)
 rename <string to replace> <new string> <filename>
+
+# list files of tar.gz
+tar -ztvf <file.tar.gz>
