@@ -75,6 +75,7 @@ scontrol show jobid <jobID>
 
 # Get job efficiency data 
 /cm/shared/apps/accounting/job_efficiency <JOBID>
+seff <jobID>
 
 # for interactive slurm session
 sinteractive -c <num_cpus> --mem <amount_mem> --time <minutes>
@@ -299,6 +300,14 @@ awk 'FNR>1 || NR==1' results/*_files.txt
 # rsync from local machine to HPC
 /usr/bin/rsync -av -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress /tmp/data_to_HPC gw2hpct02:/hpc/my_group/my_username/data/ 
 
+# rsync from storage to hpc
+rsync --archive \
+ --copy-links --progress \
+ --log-file=rsync.log \
+ --rsh "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+ "<name>":"/path/files/to/copy" \
+ "/local/path"
+
 # Automatically create repo changelog from git commits
 git log --pretty="- %s" > CHANGELOG.md
 
@@ -311,3 +320,6 @@ rename <string to replace> <new string> <filename>
 
 # list files of tar.gz
 tar -ztvf <file.tar.gz>
+
+# check disk usage
+du -sh .
