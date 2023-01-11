@@ -323,3 +323,6 @@ tar -ztvf <file.tar.gz>
 
 # check disk usage
 du -sh .
+
+# count number of lines in each file in directory
+wc -l `find .  -type f`
