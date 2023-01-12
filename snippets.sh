@@ -326,3 +326,10 @@ du -sh .
 
 # count number of lines in each file in directory
 wc -l `find .  -type f`
+
+# remove duplicate lines from several files
+for f in *.tsv
+    do
+        name=$(echo $f | sed 's/.tsv//g')
+        awk '!seen[$0]++' $f > $name.nodups.tsv
+    done
