@@ -333,3 +333,6 @@ for f in *.tsv
         name=$(echo $f | sed 's/.tsv//g')
         awk '!seen[$0]++' $f > $name.nodups.tsv
     done
+
+# Count number of lines in (gzipped) files that don't contain "#". Include file name
+zgrep  -Hcv -- '#' *.vcf.gz > <output_file>
