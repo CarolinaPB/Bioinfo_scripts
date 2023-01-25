@@ -46,6 +46,9 @@ grep -B10 <pattern> <file>
 # When grepping several files: show in which file the pattern was found in
 grep -H <pattern> *.err
 
+# find if variable is in file using grep x=exact matches=-F search in file. use -Fxq if grep output not needed
+grep -Fx "$name" normal_BM_unique.txt
+
 # get top 40 scaffolds
 sort -k2,2 -nr lengths_scaffolds.txt | head -n40
 
@@ -307,6 +310,15 @@ rsync --archive \
  --rsh "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
  "<name>":"/path/files/to/copy" \
  "/local/path"
+ 
+ # rsync - copy files in file from directory
+ rsync --archive \
+ --copy-links --progress \
+ --log-file=rsync.log \
+ --rsh "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+ --files-from=files_to_sync.txt \
+ "<name>":"/" \ # source
+ "/local/path" #destination
 
 # Automatically create repo changelog from git commits
 git log --pretty="- %s" > CHANGELOG.md
