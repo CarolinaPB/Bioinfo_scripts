@@ -49,6 +49,9 @@ grep -H <pattern> *.err
 # find if variable is in file using grep x=exact matches=-F search in file. use -Fxq if grep output not needed
 grep -Fx "$name" normal_BM_unique.txt
 
+# grep to match exactly three underscores
+grep -xiE '([^_]*_){3}[^_]*' 
+
 # get top 40 scaffolds
 sort -k2,2 -nr lengths_scaffolds.txt | head -n40
 
