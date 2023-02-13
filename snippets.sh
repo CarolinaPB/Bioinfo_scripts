@@ -200,6 +200,9 @@ gt bed_to_gff3 <file> > <output file>
 # unzip tar.gz
 tar -xvf <file>
 
+# untar tar.gz into specific directory
+tar -zvxf file.tar --directory /path/to/directory
+
 # create symbolic link
 ln -s <directory/file to link> <name of link>
 
