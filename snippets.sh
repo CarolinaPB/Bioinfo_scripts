@@ -252,6 +252,13 @@ zcat vcf1 | grep -v "#" | grep "1/1:" | wc -l
 module load vcftools 
 vcf-query -f  '%INFO/SVTYPE\n' <vcf> | sort |uniq -c
 
+##Or use bcftools
+for f in .vcf.gz
+    do 
+        echo $f
+        bcftools query -f '[%INFO/SVTYPE\n]' $f | sort | uniq -c 
+    done
+
 # list directories
 ls -d */
 
