@@ -104,6 +104,9 @@ $(basename $f) | sed "s/\..*//"
 # get file basename from file path (with extension)
 $(basename $f)
 
+# get directory name above file
+$(basename $(dirname $some_path))
+
 # give permissions to a specific user
 setfacl -m u:username:rwx myfolder
 
