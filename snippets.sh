@@ -364,3 +364,12 @@ for f in *.tsv
 
 # Count number of lines in (gzipped) files that don't contain "#". Include file name
 zgrep  -Hcv -- '#' *.vcf.gz > <output_file>
+
+# submit batch script that runs using container
+## - create submit.sh that contains the SBATCH fields and the following line to 
+## execute the script you want to run using the container
+apptainer exec -B "<path/to/mount>" docker://<containerID> bash <yourscript.sh>
+
+## - submit job with sbatch submit.sh
+
+
