@@ -372,4 +372,7 @@ apptainer exec -B "<path/to/mount>" docker://<containerID> bash <yourscript.sh>
 
 ## - submit job with sbatch submit.sh
 
+# Access existing job
+srun --jobid=<JOBID> --pty /usr/bin/bash
+
 
