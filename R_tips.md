@@ -17,3 +17,13 @@ doc <- body_add_gt(doc, value = gt_tbl)
 fileout <- tempfile(tmp_dir = "~/Downloads", fileext = ".docx") # A file with a unique ID containing your table will be saved to the downloads folder
 print(doc, target = fileout)
 ```
+
+# Combine several .png into one figure
+```{r}
+library(cowplot)
+
+plt1 <- ggdraw() +  draw_image(<filename1.png>)
+plt2 <- ggdraw() +  draw_image(<filename2.png>)
+plt_combined <- plot_grid(plt1, plt2, ncol = 1)
+save_plot(glue("combined.pdf"), plt_combined)
+```
