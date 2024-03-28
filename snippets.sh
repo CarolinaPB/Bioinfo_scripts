@@ -380,3 +380,6 @@ srun --jobid=<JOBID> --pty /usr/bin/bash
 # another subdirectory where there could also be files containing "example"
 find -type f -name "example*" | grep <subdirectory> | xargs -I {} cp {} /path/to/destination
 
+# print out line 3 (or any other number) of file
+sed -n "3p" <file>
+
