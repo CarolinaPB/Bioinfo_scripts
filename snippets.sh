@@ -375,4 +375,8 @@ apptainer exec -B "<path/to/mount>" docker://<containerID> bash <yourscript.sh>
 # Access existing job
 srun --jobid=<JOBID> --pty /usr/bin/bash
 
+# find files where the name contains certain pattern (can be in nested directories) and copy to another directory
+# here, grep is used to make sure that we only take the "example" files from the <subdirectory> directory and not from
+# another subdirectory where there could also be files containing "example"
+find -type f -name "example*" | grep <subdirectory> | xargs -I {} cp {} /path/to/destination
 
