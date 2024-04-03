@@ -383,3 +383,5 @@ find -type f -name "example*" | grep <subdirectory> | xargs -I {} cp {} /path/to
 # print out line 3 (or any other number) of file
 sed -n "3p" <file>
 
+# extract VEP column names from VCF header
+zgrep "##INFO=<ID=CSQ" <file.vcf.gz> | grep -o 'Format:.*$' | sed 's/Format: //' | sed 's/|/,/g' | sed 's/">//'
