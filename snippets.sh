@@ -170,6 +170,15 @@ find /path/to/parent_directory -maxdepth 1 -type d -empty -print
 # delete directories
 find /path/to/parent_directory -maxdepth 1 -type d -empty -print -delete
 
+# remove "empty" directories that only contain hidden files/directories
+for dir in */; do
+  shopt -s dotglob
+  if [ -d "$dir" ] && [ -z "$(ls -A "$dir" | grep -v "^\..*")" ]; then
+    echo "Removing directory: $dir"
+    rm -r "$dir"
+  fi
+done
+
 # remove everything after first space
 sed 's/\s.*$//' <file>
 ## After first dot
