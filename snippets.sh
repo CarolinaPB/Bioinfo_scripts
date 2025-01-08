@@ -164,6 +164,12 @@ find . -maxdepth 1 -mtime -1 -type f -name t* -print
 # delete
 find . -maxdepth 1 -mtime -1 -type f -name t* -delete
 
+# remove directories in the current directory that are empty. Only check the first level of directories (-maxdepth 1)
+# first list them
+find /path/to/parent_directory -maxdepth 1 -type d -empty -print
+# delete directories
+find /path/to/parent_directory -maxdepth 1 -type d -empty -print -delete
+
 # remove everything after first space
 sed 's/\s.*$//' <file>
 ## After first dot
